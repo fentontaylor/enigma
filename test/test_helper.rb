@@ -1,5 +1,10 @@
 require 'simplecov'
 
-Simplecov.start do
-  add_filter "/test"
-end 
+SimpleCov.start do
+  add_filter '/test'
+end
+
+require 'minitest/autorun'
+require 'minitest/pride'
+require 'mocha/minitest'
+require './modules/random_digits'
