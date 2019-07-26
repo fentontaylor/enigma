@@ -9,9 +9,9 @@ class OffsetTest < Minitest::Test
     assert_instance_of Offset, @offset
   end
 
-  def test_attributes
-    assert_equal '220686', @offset.date
-  end
+  # def test_attributes
+  #   assert_equal '220686', @offset.date
+  # end
 
   def test_offset_prep
     assert_equal '0596', @offset.offset_prep
