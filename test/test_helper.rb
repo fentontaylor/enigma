@@ -7,5 +7,6 @@ end
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'mocha/minitest'
-require './modules/random_digits'
+require './modules/random_chars'
 require './lib/key'
+require './lib/offset'

@@ -1,0 +1,22 @@
+require './test/test_helper'
+
+class RandomCharsTest < Minitest::Test
+  include RandomChars
+
+  def test_generate_creates_correct_size
+    assert_equal 1, random_digits(1).length
+    assert_equal 2, random_digits(2).length
+    assert_equal 3, random_digits(3).length
+    assert_equal 4, random_digits(4).length
+    assert_equal 5, random_digits(5).length
+  end
+
+  def test_generate_creates_strings_of_numbers
+    nums = []
+    10.times { nums << random_digits(5) }
+    assert nums.all? { |num| num.class == String }
+
+    ints = nums.map { |num| num.to_i }
+    assert ints.all? { |num| num.class == Integer }
+  end
+end
