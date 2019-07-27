@@ -5,18 +5,21 @@ class Enigma
     @chars_array ||= ('a'..'z').to_a.push(' ')
   end
 
-  def make_ciphers(key, date)
+  def make_ciphers(key, date, type)
     shift = Shift.new( Key.new(key), Offset.new(date) )
-    shift.get_shifts.transform_values { |val| char_set.rotate(val) }
+    shift.get_shifts.transform_values do |val|
+      val *= -1 if type == :decrypt
+      char_set.rotate(val)
+    end
   end
 
   def prep_message(message)
     message.downcase.split('')
   end
 
-  def transcribe_message(message, key, date)
+  def transcribe_message(message, key, date, type)
     shift_ref = [:D, :A, :B, :C]
-    ciphers = make_ciphers(key, date)
+    ciphers = make_ciphers(key, date, type)
     code = prep_message(message).map do |letter|
         shift_ref.rotate! if char_set.include?(letter)
         char_set.include?(letter) ? ciphers[shift_ref.first][char_set.rindex(letter)] : letter
@@ -24,7 +27,12 @@ class Enigma
   end
 
   def encrypt(message, key = random_digits(5), date = Date.today.strftime('%d%m%y'))
-    code = transcribe_message(message, key, date)
+    code = transcribe_message(message, key, date, :encrypt)
     {encryption: code, key: key, date: date}
+  end
+
+  def decrypt(message, key, date = Date.today.strftime('%d%m%y'))
+    code = transcribe_message(message, key, date, :decrypt)
+    {decryption: code, key: key, date: date}
   end
 end
