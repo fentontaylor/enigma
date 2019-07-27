@@ -2,8 +2,7 @@ require './test/test_helper'
 
 class ShiftTest < Minitest::Test
   def setup
-    @key = Key.new
-    @key.stubs(:random_digits).returns('02715')
+    @key = Key.new('02715')
     @offset = Offset.new('040895')
     @shift = Shift.new(@key, @offset)
   end
