@@ -2,9 +2,8 @@ require './test/test_helper'
 
 class ShiftTest < Minitest::Test
   def setup
-    @key = Key.new
-    @key.stubs(:random_digits).returns('31415')
-    @offset = Offset.new('220686')
+    @key = Key.new('02715')
+    @offset = Offset.new('040895')
     @shift = Shift.new(@key, @offset)
   end
 
@@ -13,7 +12,7 @@ class ShiftTest < Minitest::Test
   end
 
   def test_get_shifts
-    expected = { A: 31, B: 19, C: 50, D: 21}
+    expected = { A: 3, B: 27, C: 73, D: 20 }
     assert_equal expected, @shift.get_shifts
   end
 end
