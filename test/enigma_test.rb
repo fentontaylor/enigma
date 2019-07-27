@@ -105,4 +105,10 @@ class EnigmaTest < Minitest::Test
     }
     assert_equal expected, @enigma.decrypt('keder ohulw', '02715', '040895')
   end
+
+  def test_encrypt_decrypt_integration
+    encrypted = @enigma.encrypt("What's up?", '31415')
+    decrypted = @enigma.decrypt(encrypted[:encryption], '31415')
+    assert_equal "what's up?", decrypted[:decryption]
+  end
 end
