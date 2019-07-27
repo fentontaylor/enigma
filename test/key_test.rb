@@ -18,10 +18,10 @@ class KeyTest < Minitest::Test
     assert_equal expected, @key.get_keys
   end
 
-  def test_get_keys_with_random_digits
-    key = Key.new
-    key.stubs(:key_val).returns('10203')
-    expected = { A: 10, B: 2, C: 20, D: 3 }
-    assert_equal expected, key.get_keys
-  end
+  # def test_get_keys_with_random_digits
+  #   key = Key.new
+  #   key.stubs(:key_val).returns('10203')
+  #   expected = { A: 10, B: 2, C: 20, D: 3 }
+  #   assert_equal expected, key.get_keys
+  # end
 end
