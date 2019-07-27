@@ -23,12 +23,27 @@ class EnigmaTest < Minitest::Test
       C: ('a'..'z').to_a.push(' ').rotate(73),
       D: ('a'..'z').to_a.push(' ').rotate(20)
     }
-    assert_equal expected, @enigma.make_ciphers(@key.key_val, @offset.date)
+    assert_equal expected, @enigma.make_ciphers(@key.key_val, @offset.date, :encrypt)
+
+    expected = {
+      A: ('a'..'z').to_a.push(' ').rotate(-3),
+      B: ('a'..'z').to_a.push(' ').rotate(-27),
+      C: ('a'..'z').to_a.push(' ').rotate(-73),
+      D: ('a'..'z').to_a.push(' ').rotate(-20)
+    }
+    assert_equal expected, @enigma.make_ciphers(@key.key_val, @offset.date, :decrypt)
+  end
+
+  def test_prep_message
+    assert_equal %w[h e l l o], @enigma.prep_message('hello')
+    assert_equal %w[h e l l o], @enigma.prep_message('HELLo')
+    assert_equal %w[h e l l o !], @enigma.prep_message('Hello!')
+    assert_equal %w[h e l l o ! 4 %], @enigma.prep_message('Hello!4%')
   end
 
   def test_transcribe_message
     expected = 'keder ohulw'
-    actual = @enigma.transcribe_message('hello world', '02715', '040895')
+    actual = @enigma.transcribe_message('hello world', '02715', '040895', :encrypt)
     assert_equal expected, actual
   end
 
@@ -40,6 +55,17 @@ class EnigmaTest < Minitest::Test
     }
     actual = @enigma.encrypt('hello world', '02715', '040895')
     assert_equal expected, actual
+
+    actual_2 = @enigma.encrypt('Hello WORLD', '02715', '040895')
+    assert_equal expected, actual_2
+
+    expected_2 = {
+      encryption: '$keder ohulw!',
+      key: '02715',
+      date: '040895'
+    }
+    actual_3 = @enigma.encrypt('$Hello WORLD!', '02715', '040895')
+    assert_equal expected_2, actual_3
   end
 
   def test_encrypt_without_date
@@ -50,6 +76,10 @@ class EnigmaTest < Minitest::Test
       date: '040895'
     }
     assert_equal expected, @enigma.encrypt('hello', '02715')
+
+    actual = @enigma.encrypt('hello', '02715')
+    assert actual.values.all? { |val| val.class == String }
+    assert actual[:date].to_i != 0
   end
 
   def test_encrypt_without_date_or_key
@@ -61,5 +91,24 @@ class EnigmaTest < Minitest::Test
       date: '040895'
     }
     assert_equal expected, @enigma.encrypt('hello')
+
+    actual = @enigma.encrypt('hello')
+    assert actual.values.all? { |val| val.class == String }
+    assert actual[:key].to_i > 0
+  end
+
+  def test_decrypt
+    expected = {
+      decryption: 'hello world',
+      key: '02715',
+      date: '040895'
+    }
+    assert_equal expected, @enigma.decrypt('keder ohulw', '02715', '040895')
+  end
+
+  def test_encrypt_decrypt_integration
+    encrypted = @enigma.encrypt("What's up?", '31415')
+    decrypted = @enigma.decrypt(encrypted[:encryption], '31415')
+    assert_equal "what's up?", decrypted[:decryption]
   end
 end
