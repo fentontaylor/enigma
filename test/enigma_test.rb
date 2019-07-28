@@ -111,4 +111,17 @@ class EnigmaTest < Minitest::Test
     decrypted = @enigma.decrypt(encrypted[:encryption], '31415')
     assert_equal "what's up?", decrypted[:decryption]
   end
+
+  def test_crack
+    encrypted = @enigma.encrypt('hello world end', '07190', '220619')
+    decrypted = @enigma.crack(encrypted[:encryption], '220619')
+    assert_equal 'hello world end', decrypted[:decryption]
+    assert_equal '07190', decrypted[:key]
+  end
+
+  def test_crack_using_todays_date
+    encrypted_2 = @enigma.encrypt('hello world end')
+    decrypted_2 = @enigma.crack(encrypted_2[:encryption])
+    assert_equal 'hello world end', decrypted_2[:decryption]
+  end
 end
