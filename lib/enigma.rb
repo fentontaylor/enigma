@@ -35,4 +35,16 @@ class Enigma
     code = transcribe_message(message, key, date, :decrypt)
     {decryption: code, key: key, date: date}
   end
+
+  def crack(message, date = Date.today.strftime('%d%m%y'))
+    enigma = Enigma.new
+    attempt = 'abcd'
+    seed = 1
+    until attempt[-4..-1] == ' end'
+      key = seed.to_s.rjust(5, '0')
+      attempt = enigma.decrypt(message, key, date)[:decryption]
+      seed += 1
+    end
+    { decryption: attempt, key: key, date: date }
+  end
 end
