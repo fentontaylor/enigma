@@ -20,18 +20,14 @@ class SmartSolverTest < Minitest::Test
     assert_equal 'thnw', @solver.message_end('keder ohulwthnw')
   end
 
-  def test_crack_offsets
-    assert_equal ({A: -1, B: 0, C: -2, D: -5}), @solver.crack_offsets('040895')
-  end
-
   def test_last_four
     expected = {D: 't', A: 'h', B: 'n', C: 'w'}
     assert_equal expected, @solver.last_four('keder ohulwthnw')
   end
 
-  def test_undo_offsets
-    expected = {D: 'o', A: 'g', B: 'n', C: 'u'}
-    assert_equal expected, @solver.undo_offsets('keder ohulwthnw', '040895')
+  def test_last_four_actual
+    expected = {D: ' ', A: 'e', B: 'n', C: 'd'}
+    assert_equal expected, @solver.last_four_actual('keder ohulwthnw')
   end
 
   def test_find_shift_num
@@ -42,13 +38,11 @@ class SmartSolverTest < Minitest::Test
   end
 
   def test_get_unshift_set
-    assert_equal
+    expected = {A: -3, B: 0, C: -19, D: -20}
+    assert_equal expected, @solver.get_unshift_set('keder ohulwthnw')
   end
 
-  # def test_first_crack_shift
-  #   assert_equal :D, @solver.first_crack_shift('hello world end')
-  #   assert_equal :C, @solver.first_crack_shift('ello world end')
-  #   assert_equal :B, @solver.first_crack_shift('ello worl end')
-  #   assert_equal :A, @solver.first_crack_shift('ello wor end')
-  # end
+  def test_smart_crack
+    assert_equal 'hello world end', @solver.smart_crack('keder ohulwthnw')
+  end
 end

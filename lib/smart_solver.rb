@@ -3,17 +3,6 @@ class SmartSolver < Enigma
     message.split('').select { |char| char_set.include? char }.length
   end
 
-  # def first_crack_shift(message)
-  #   [:A, :B, :C, :D][message_length(message) % 4]
-  # end
-
-  def crack_offsets(date)
-    offsets = Offset.new(date).get_offsets
-    offsets.transform_values do |val|
-      val * -1
-    end
-  end
-
   def end_order(message)
     [:A, :B, :C, :D].rotate(message_length(message) % 4)
   end
@@ -28,14 +17,10 @@ class SmartSolver < Enigma
     end_ord.zip(mess_end).to_h
   end
 
-  def undo_offsets(message, date)
-    offsets = crack_offsets(date)
-    undone = {}
-    last_four(message).each do |shift, letter|
-      rotated = char_set.rotate(offsets[shift])
-      undone[shift] = rotated[char_set.rindex(letter)]
-    end
-    undone
+  def last_four_actual(message)
+    actual = ' end'.split('')
+    order = end_order(message)
+    order.zip(actual).to_h
   end
 
   def find_shift_num(from, to)
@@ -49,8 +34,22 @@ class SmartSolver < Enigma
     num
   end
 
-  def crack(message, date = Date.today.strftime('%d%m%y'))
+  def get_unshift_set(message)
+    unshift_set = {}
+    last_four(message).each do |shift, letter|
+      to_letter = last_four_actual(message)[shift]
+      unshift_set[shift] = find_shift_num(letter, to_letter)
+    end
+    unshift_set
+  end
 
-    { decryption: attempt, key: seed , date: date }
+  def smart_crack(message)
+    shift_ref = [:D, :A, :B, :C]
+    shifts = get_unshift_set(message)
+    prep_message(message).map do |letter|
+        shift_ref.rotate! if char_set.include?(letter)
+        rotated = char_set.rotate(shifts[shift_ref.first])
+        rotated[char_set.rindex(letter)]
+    end.join
   end
 end
