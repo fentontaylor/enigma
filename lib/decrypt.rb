@@ -14,4 +14,4 @@ message = File.read(message_file)
 enigma = Enigma.new
 decryption = enigma.decrypt(message, key, date)
 File.write(write_to_file, decryption[:decryption])
-puts "Created '#{ARGV[1]}' with the key #{decryption[:key]} and date #{decryption[:date]}"
+puts "Created '#{write_to_file}' with the key #{key} and date #{date}"
