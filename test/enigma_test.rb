@@ -55,7 +55,7 @@ class EnigmaTest < Minitest::Test
     }
     actual = @enigma.encrypt('hello world', '02715', '040895')
     assert_equal expected, actual
-
+    require 'pry';binding.pry
     actual_2 = @enigma.encrypt('Hello WORLD', '02715', '040895')
     assert_equal expected, actual_2
 
@@ -120,13 +120,12 @@ class EnigmaTest < Minitest::Test
 
     encrypted_2 = @enigma.encrypt("Don't stop believing! end", '31415', '220619')
     cracked_2 = @enigma.crack(encrypted_2[:encryption], '220619')
-    assert_equal = "Don't stop believing! end", cracked[:decryption]
+    assert_equal "don't stop believing! end", cracked_2[:decryption]
   end
 
   def test_crack_using_todays_date
     encrypted = @enigma.encrypt('hello world end')
     cracked = @enigma.crack(encrypted[:encryption])
-    require 'pry';binding.pry
     assert_equal 'hello world end', cracked[:decryption]
   end
 end
