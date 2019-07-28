@@ -55,7 +55,7 @@ class EnigmaTest < Minitest::Test
     }
     actual = @enigma.encrypt('hello world', '02715', '040895')
     assert_equal expected, actual
-
+    require 'pry';binding.pry
     actual_2 = @enigma.encrypt('Hello WORLD', '02715', '040895')
     assert_equal expected, actual_2
 
