@@ -20,7 +20,7 @@ class Enigma
   def transcribe_message(message, key, date, type)
     shift_ref = [:D, :A, :B, :C]
     ciphers = make_ciphers(key, date, type)
-    code = prep_message(message).map do |letter|
+    prep_message(message).map do |letter|
         shift_ref.rotate! if char_set.include?(letter)
         char_set.include?(letter) ? ciphers[shift_ref.first][char_set.rindex(letter)] : letter
     end.join
