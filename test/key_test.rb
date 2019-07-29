@@ -13,7 +13,7 @@ class KeyTest < Minitest::Test
     assert_equal '02715', @key.key_val
   end
 
-  def test_get_keys_with_given_digits
+  def test_get_keys
     expected = { A: 2, B: 27, C: 71, D: 15 }
     assert_equal expected, @key.get_keys
   end

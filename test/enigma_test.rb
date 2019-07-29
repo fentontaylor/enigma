@@ -5,6 +5,9 @@ class EnigmaTest < Minitest::Test
     @key = Key.new('02715')
     @offset = Offset.new('040895')
     @enigma = Enigma.new
+    @all_characters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'] +
+                      ['j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'] +
+                      ['s', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ']
   end
 
   def test_it_exists
@@ -12,24 +15,23 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_char_set
-    expected = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ']
-    assert_equal expected, @enigma.char_set
+    assert_equal @all_characters, @enigma.char_set
   end
 
   def test_make_ciphers
     expected = {
-      A: ('a'..'z').to_a.push(' ').rotate(3),
-      B: ('a'..'z').to_a.push(' ').rotate(27),
-      C: ('a'..'z').to_a.push(' ').rotate(73),
-      D: ('a'..'z').to_a.push(' ').rotate(20)
+      A: @all_characters.rotate(3),
+      B: @all_characters.rotate(27),
+      C: @all_characters.rotate(73),
+      D: @all_characters.rotate(20)
     }
     assert_equal expected, @enigma.make_ciphers(@key.key_val, @offset.date, :encrypt)
 
     expected = {
-      A: ('a'..'z').to_a.push(' ').rotate(-3),
-      B: ('a'..'z').to_a.push(' ').rotate(-27),
-      C: ('a'..'z').to_a.push(' ').rotate(-73),
-      D: ('a'..'z').to_a.push(' ').rotate(-20)
+      A: @all_characters.rotate(-3),
+      B: @all_characters.rotate(-27),
+      C: @all_characters.rotate(-73),
+      D: @all_characters.rotate(-20)
     }
     assert_equal expected, @enigma.make_ciphers(@key.key_val, @offset.date, :decrypt)
   end
@@ -44,6 +46,10 @@ class EnigmaTest < Minitest::Test
   def test_transcribe_message
     expected = 'keder ohulw'
     actual = @enigma.transcribe_message('hello world', '02715', '040895', :encrypt)
+    assert_equal expected, actual
+
+    expected = 'keder? ohulw!'
+    actual = @enigma.transcribe_message('hello? world!', '02715', '040895', :encrypt)
     assert_equal expected, actual
   end
 
@@ -92,8 +98,10 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.encrypt('hello')
 
     actual = @enigma.encrypt('hello')
+    assert actual.values.none?(&:nil?)
     assert actual.values.all? { |val| val.class == String }
     assert actual[:key].to_i > 0
+    assert actual[:date].to_i > 0
   end
 
   def test_decrypt
