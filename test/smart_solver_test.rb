@@ -42,6 +42,11 @@ class SmartSolverTest < Minitest::Test
     assert_equal expected, @solver.get_unshift_set('keder ohulwthnw')
   end
 
+  def test_get_shifted_letter
+    assert_equal 'a', @solver.get_shifted_letter(-3, 'd')
+    assert_equal 'x', @solver.get_shifted_letter(-7, 'd')
+  end
+
   def test_smart_crack
     assert_equal 'hello world end', @solver.smart_crack('keder ohulwthnw')
     assert_equal 'hello world! end', @solver.smart_crack('keder ohulw!thnw')
