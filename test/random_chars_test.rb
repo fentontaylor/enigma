@@ -19,4 +19,21 @@ class RandomCharsTest < Minitest::Test
     ints = nums.map { |num| num.to_i }
     assert ints.all? { |num| num.class == Integer }
   end
+
+  def test_character_set
+    expected = {
+      digits: (0..9).to_a,
+      upper: ('A'..'Z').to_a,
+      lower: ('a'..'z').to_a
+    }
+    assert_equal expected, character_set
+  end
+
+  def test_random_characters
+    assert_equal 16, random_characters(16).length
+    assert random_characters(16).split.all? do |char|
+      chars = character_set.values.map { |arr| arr }.flatten
+      chars.include? char
+    end
+  end
 end
