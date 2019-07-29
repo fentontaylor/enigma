@@ -23,19 +23,22 @@ class Enigma
     prep_message(message).map do |letter|
         if char_set.include?(letter)
           shift_ref.rotate!
-          ciphers[shift_ref.first][char_set.rindex(letter)]
-        else
-          letter
+          letter = ciphers[shift_ref.first][char_set.rindex(letter)]
         end
+        letter
     end.join
   end
 
-  def encrypt(message, key = random_digits(5), date = Date.today.strftime('%d%m%y'))
+  def encrypt(message,
+              key = random_digits(5),
+              date = Date.today.strftime('%d%m%y'))
     code = transcribe_message(message, key, date, :encrypt)
     {encryption: code, key: key, date: date}
   end
 
-  def decrypt(message, key, date = Date.today.strftime('%d%m%y'))
+  def decrypt(message,
+              key,
+              date = Date.today.strftime('%d%m%y'))
     code = transcribe_message(message, key, date, :decrypt)
     {decryption: code, key: key, date: date}
   end

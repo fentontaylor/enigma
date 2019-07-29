@@ -43,17 +43,20 @@ class SmartSolver < Enigma
     unshift_set
   end
 
+  def get_shifted_letter(shift, letter)
+    rotated = char_set.rotate(shift)
+    rotated[char_set.rindex(letter)]
+  end
+
   def smart_crack(message)
     shift_ref = [:D, :A, :B, :C]
     shifts = get_unshift_set(message)
     prep_message(message).map do |letter|
       if char_set.include?(letter)
         shift_ref.rotate!
-        rotated = char_set.rotate(shifts[shift_ref.first])
-        rotated[char_set.rindex(letter)]
-      else
-        letter
+        letter = get_shifted_letter(shifts[shift_ref.first], letter)
       end
+      letter
     end.join
   end
 end
