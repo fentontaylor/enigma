@@ -44,5 +44,6 @@ class SmartSolverTest < Minitest::Test
 
   def test_smart_crack
     assert_equal 'hello world end', @solver.smart_crack('keder ohulwthnw')
+    assert_equal 'hello world! end', @solver.smart_crack('keder ohulw!thnw')
   end
 end
