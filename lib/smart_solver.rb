@@ -47,9 +47,13 @@ class SmartSolver < Enigma
     shift_ref = [:D, :A, :B, :C]
     shifts = get_unshift_set(message)
     prep_message(message).map do |letter|
-        shift_ref.rotate! if char_set.include?(letter)
+      if char_set.include?(letter)
+        shift_ref.rotate!
         rotated = char_set.rotate(shifts[shift_ref.first])
         rotated[char_set.rindex(letter)]
+      else
+        letter
+      end
     end.join
   end
 end
