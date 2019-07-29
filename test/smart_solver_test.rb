@@ -4,6 +4,7 @@ class SmartSolverTest < Minitest::Test
   def setup
     @solver = SmartSolver.new
   end
+  
   def test_message_length
     assert_equal 15, @solver.message_length('hello world end')
     assert_equal 15, @solver.message_length('hello! world! end')
