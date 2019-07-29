@@ -10,6 +10,9 @@ file_to_write = ARGV[1]
 
 message = File.read(message_file)
 enigma = Enigma.new
+
 encryption = enigma.encrypt(message)
+
 File.write( file_to_write, encryption[:encryption] )
+
 puts "Created '#{file_to_write}' with the key #{encryption[:key]} and date #{encryption[:date]}"
