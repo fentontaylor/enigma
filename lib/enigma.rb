@@ -21,8 +21,12 @@ class Enigma
     shift_ref = [:D, :A, :B, :C]
     ciphers = make_ciphers(key, date, type)
     prep_message(message).map do |letter|
-        shift_ref.rotate! if char_set.include?(letter)
-        char_set.include?(letter) ? ciphers[shift_ref.first][char_set.rindex(letter)] : letter
+        if char_set.include?(letter)
+          shift_ref.rotate!
+          ciphers[shift_ref.first][char_set.rindex(letter)]
+        else
+          letter
+        end
     end.join
   end
 
@@ -37,12 +41,11 @@ class Enigma
   end
 
   def crack(message, date = Date.today.strftime('%d%m%y'))
-    enigma = Enigma.new
     attempt = 'abcd'
     seed = 1
     until attempt[-4..-1] == ' end'
       key = seed.to_s.rjust(5, '0')
-      attempt = enigma.decrypt(message, key, date)[:decryption]
+      attempt = decrypt(message, key, date)[:decryption]
       seed += 1
     end
     { decryption: attempt, key: key, date: date }

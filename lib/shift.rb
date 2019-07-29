@@ -5,8 +5,8 @@ class Shift
   end
 
   def get_shifts
-    @key.get_keys.merge(@offset.get_offsets) do |key, k_val, o_val|
-      k_val + o_val
-    end
+    keys = @key.get_keys
+    offsets = @offset.get_offsets
+    keys.merge(offsets) { |key, k_val, o_val| k_val + o_val }
   end
 end

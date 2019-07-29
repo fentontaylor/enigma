@@ -31,10 +31,10 @@ class SmartSolverTest < Minitest::Test
   end
 
   def test_find_shift_num
-    assert_equal -15, @solver.find_shift_num('o', ' ')
-    assert_equal  -2, @solver.find_shift_num('g', 'e')
-    assert_equal   0, @solver.find_shift_num('n', 'n')
-    assert_equal -17, @solver.find_shift_num('u', 'd')
+    assert_equal (-15), @solver.find_shift_num('o', ' ')
+    assert_equal  (-2), @solver.find_shift_num('g', 'e')
+    assert_equal     0, @solver.find_shift_num('n', 'n')
+    assert_equal (-17), @solver.find_shift_num('u', 'd')
   end
 
   def test_get_unshift_set
