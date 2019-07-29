@@ -23,10 +23,9 @@ class Enigma
     prep_message(message).map do |letter|
         if char_set.include?(letter)
           shift_ref.rotate!
-          ciphers[shift_ref.first][char_set.rindex(letter)]
-        else
-          letter
+          letter = ciphers[shift_ref.first][char_set.rindex(letter)]
         end
+        letter
     end.join
   end
 
