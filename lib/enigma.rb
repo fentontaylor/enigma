@@ -29,12 +29,16 @@ class Enigma
     end.join
   end
 
-  def encrypt(message, key = random_digits(5), date = Date.today.strftime('%d%m%y'))
+  def encrypt(message,
+              key = random_digits(5),
+              date = Date.today.strftime('%d%m%y'))
     code = transcribe_message(message, key, date, :encrypt)
     {encryption: code, key: key, date: date}
   end
 
-  def decrypt(message, key, date = Date.today.strftime('%d%m%y'))
+  def decrypt(message,
+              key,
+              date = Date.today.strftime('%d%m%y'))
     code = transcribe_message(message, key, date, :decrypt)
     {decryption: code, key: key, date: date}
   end
