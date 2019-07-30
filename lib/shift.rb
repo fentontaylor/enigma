@@ -1,7 +1,7 @@
 class Shift
-  def initialize(key, offset)
-    @key = key
-    @offset = offset
+  def initialize(key_obj, offset_obj)
+    @key = key_obj
+    @offset = offset_obj
   end
 
   def get_shifts
