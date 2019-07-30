@@ -4,15 +4,9 @@ require './lib/key'
 require './lib/offset'
 require './lib/shift'
 require './lib/enigma'
+require './lib/message_file'
 
-message_file = ARGV[0]
-file_to_write = ARGV[1]
+message = MessageFile.encrypt(ARGV[0], ARGV[1])
+File.write( message.ciphertext_file, message.ciphertext )
 
-message = File.read(message_file)
-enigma = Enigma.new
-
-encryption = enigma.encrypt(message)
-
-File.write( file_to_write, encryption[:encryption] )
-
-puts "Created '#{file_to_write}' with the key #{encryption[:key]} and date #{encryption[:date]}"
+puts "Created '#{message.ciphertext_file}' with the key #{message.key} and date #{message.date}"
