@@ -61,10 +61,9 @@ terminal " end" and the underlying shift pattern (like taking apart the Enigma m
   analyze the circuitry).
 
 ```
-enigma = Enigma.new
 solver = SmartSolver.new
 
-enigma.encrypt('hello world end')
+solver.encrypt('hello world end')
 => {:encryption=>"uf  aakcdmsoros", :key=>"07368", :date=>"290719"}
 
 solver.smart_crack("uf  aakcdmsoros")
