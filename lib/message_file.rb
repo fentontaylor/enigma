@@ -26,4 +26,16 @@ class MessageFile
                 key: encrypted[:key],
                 date: encrypted[:date])
   end
+
+  def self.decrypt(in_file, out_file, key, date)
+    message = File.read(in_file)
+    enigma = Enigma.new
+    decrypted = enigma.decrypt(message, key, date)
+    MessageFile.new(text_file: out_file,
+                ciphertext_file: in_file,
+                text: decrypted[:decryption],
+                ciphertext: message,
+                key: decrypted[:key],
+                date: decrypted[:date])
+  end
 end
