@@ -72,4 +72,4 @@ force. Somewhat trivial in this case since brute force only takes a few seconds,
 but it's proof that more sophisticated cracks are more efficient than brute force
 by orders of magnitude.
 
-[img](./.github/crack_comparison.png)
+![img](docs/crack_comparison.png)
