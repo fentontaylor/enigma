@@ -4,17 +4,9 @@ require './lib/key'
 require './lib/offset'
 require './lib/shift'
 require './lib/enigma'
+require './lib/message_file'
 
-message_file = ARGV[0]
-write_to_file = ARGV[1]
-key = ARGV[2]
-date = ARGV[3]
+message = MessageFile.decrypt(ARGV[0], ARGV[1], ARGV[2], ARGV[3])
+File.write(message.text_file, message.text)
 
-message = File.read(message_file)
-enigma = Enigma.new
-
-decryption = enigma.decrypt(message, key, date)
-
-File.write(write_to_file, decryption[:decryption])
-
-puts "Created '#{write_to_file}' with the key #{key} and date #{date}"
+puts "Created '#{message.text_file}' with the key #{message.key} and date #{message.date}"
